@@ -1,0 +1,52 @@
+{
+  "name": "@trustfund/plugin-secure-wallet",
+  "version": "0.1.0",
+  "description": "Opt-in spending guardrails and a transparent, self-directed convenience fee for autonomous agent wallets in the Eliza framework. No fees by default; no hardcoded fee recipient.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "eliza",
+    "web3",
+    "account-abstraction",
+    "erc-4337",
+    "viem",
+    "agent-wallet",
+    "spending-limits",
+    "guardrails"
+  ],
+  "peerDependencies": {
+    "viem": "^2.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@elizaos/core": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "typescript": "^5.4.0",
+    "viem": "^2.21.0",
+    "vitest": "^2.0.0"
+  },
+  "sideEffects": false,
+  "license": "MIT"
+}
