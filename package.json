@@ -21,7 +21,8 @@
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run typecheck && npm test && npm run build"
   },
   "keywords": [
     "eliza",
@@ -48,5 +49,19 @@
     "vitest": "^2.0.0"
   },
   "sideEffects": false,
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pdunny7/trustfund-plugin-secure-wallet.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pdunny7/trustfund-plugin-secure-wallet/issues"
+  },
+  "homepage": "https://github.com/pdunny7/trustfund-plugin-secure-wallet#readme",
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }
