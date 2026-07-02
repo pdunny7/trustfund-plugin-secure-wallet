@@ -134,6 +134,23 @@ npm test            # vitest run
 npm run build       # emit dist/
 ```
 
+## Commercial / hosted service (open-core)
+
+This plugin is free and MIT-licensed forever — self-host it with fees disabled
+and you pay nothing. Revenue for the maintainer comes from **operating** a hosted
+secured-wallet service for customers who knowingly sign up and agree to a
+disclosed convenience fee, plus a paid control plane (policy dashboard, multi-sig
+approval UX, monitoring, audit logs). See [SERVICE.md](SERVICE.md) for the full
+architecture and [examples/hosted-operator.ts](examples/hosted-operator.ts) for
+the operator-side wiring. The rule that never changes: you only ever charge your
+own signed-up customers, transparently.
+
+## Funding
+
+Agent-treasury security is a fundable public good — ecosystem grants (Base,
+Optimism RetroPGF, Arbitrum), framework bounties, and GitHub Sponsors (see
+[.github/FUNDING.yml](.github/FUNDING.yml)) all apply.
+
 ## License
 
 MIT
