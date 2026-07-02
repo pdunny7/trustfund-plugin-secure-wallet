@@ -164,6 +164,9 @@ export function computeFeeSplit(
   }
 
   const totalAmount = parseUnits(intent.totalAmountRaw, intent.decimals);
+  if (totalAmount < 0n) {
+    throw new FeeConfigError(`totalAmountRaw must be non-negative, got: ${intent.totalAmountRaw}`);
+  }
 
   const feeActive =
     config.enabled && config.feeBasisPoints > 0 && config.feeCollector !== null;

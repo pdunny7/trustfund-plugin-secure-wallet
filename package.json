@@ -1,6 +1,6 @@
 {
   "name": "@trustfund/plugin-secure-wallet",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Opt-in spending guardrails and a transparent, self-directed convenience fee for autonomous agent wallets in the Eliza framework. No fees by default; no hardcoded fee recipient.",
   "type": "module",
   "main": "./dist/index.js",
@@ -22,7 +22,8 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "prepublishOnly": "npm run typecheck && npm test && npm run build"
+    "prepack": "npm run build",
+    "prepublishOnly": "npm run typecheck && npm test"
   },
   "keywords": [
     "eliza",

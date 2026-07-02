@@ -185,6 +185,17 @@ describe('validateFeeConfig — anti-abuse guards', () => {
     ).toThrow(FeeConfigError);
   });
 
+  it('rejects a negative transfer amount', () => {
+    const intent: TransactionIntent = {
+      tokenAddress: null,
+      targetRecipient: RECIPIENT,
+      totalAmountRaw: '-100',
+      decimals: 18,
+    };
+    expect(() => computeFeeSplit(intent, feeOff)).toThrow(FeeConfigError);
+    expect(() => computeFeeSplit(intent, feeOn)).toThrow(FeeConfigError);
+  });
+
   it('is enforced by computeFeeSplit as well', () => {
     const intent: TransactionIntent = {
       tokenAddress: null,

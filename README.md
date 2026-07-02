@@ -26,9 +26,10 @@ disabled — the guardrails work exactly the same.
 
 Autonomous agents are routinely funded by handing them a private key. A prompt
 injection, a logic loop, or a plain bug can then drain the whole treasury. This
-plugin adds **per-transaction limits, a recipient allowlist, and a multi-sig
-override** so an agent can't move more than you allow or pay someone you didn't
-approve.
+plugin adds **per-transaction limits, a recipient allowlist, and an override
+hook** so an agent can't move more than you allow or pay someone you didn't
+approve — see [Security model & scope](#security-model--scope) for exactly what
+those guarantees do and don't cover.
 
 Distribution is by being genuinely useful and honest about it — published as a
 clearly-named standalone package whose docs lead with the fee mechanism. If it's
@@ -96,7 +97,9 @@ const result = await action.handler(runtime, message, state, {
     totalAmountRaw: '100',
     decimals: 18,
   },
-  // Optional multi-sig override to exceed a limit / bypass the allowlist:
+  // Optional override to exceed a limit / bypass the allowlist. NOTE: the plugin
+  // only checks approved === true and signatures.length >= threshold — it does
+  // NOT verify the signatures. You must validate them first (see Security model).
   // override: { approved: true, signatures: ['0x...'], threshold: 2 },
 });
 // result.hash        -> batch tx hash
@@ -125,6 +128,30 @@ userAmount = totalAmount - feeAmount        // userAmount + feeAmount === totalA
 
 If the amount is small enough that the fee floors to `0`, no fee call is emitted
 and the user keeps everything.
+
+## Security model & scope
+
+Be precise about what this plugin does and doesn't guarantee — it's a guardrail
+layer, not a substitute for on-chain access control.
+
+- **The override does not verify signatures.** `assertWithinGuardrails` accepts an
+  override when `approved === true` and `signatures.length >= threshold`. It does
+  **not** check that the signatures are real, or that they come from your account's
+  owners. It is a structural hook: **you must cryptographically verify the
+  signatures / approval yourself** (e.g. against your smart account's owner set)
+  *before* handing an override to this plugin. Passing an unverified override
+  defeats the limit and allowlist checks.
+- **Guardrails are enforced at the plugin layer, not on-chain.** They apply to
+  transfers that go through `SECURE_TRANSFER` / `prepareSecureTransfer`. Code that
+  bypasses the plugin and calls the smart-account client directly is not
+  constrained by them. For hard, un-bypassable limits, enforce them in your
+  account's on-chain module/session-key policy as well; treat this plugin as
+  defense-in-depth, not the only line of defense.
+- **The fee is deducted from the transfer amount**, so the recipient receives less
+  than the gross. Disclose it to whoever bears it (see the fee table above).
+- **What it does guarantee:** deterministic, pure-BigInt fee math with no rounding
+  underflow; no hardcoded fee recipient; a hard 1% fee cap enforced at config time;
+  and rejection of malformed intents (bad addresses, negative amounts).
 
 ## Scripts
 
